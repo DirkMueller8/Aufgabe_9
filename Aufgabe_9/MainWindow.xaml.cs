@@ -34,10 +34,15 @@ namespace Aufgabe_9
             StringBuilder sb = new StringBuilder();
             int numberM = 0;
             sb.Append(numberRoman);
-            if (DeterminePositionOFLetter(sb, 'X') != null)
-                numberM = (int)DeterminePositionOFLetter(sb, 'X');
+            Transform tf = new Transform();
+            if (tf.DeterminePositionOFLetter(sb, 'X') != null)
+                numberM = (int)tf.DeterminePositionOFLetter(sb, 'X');
+            MessageBox.Show(numberM.ToString());
         }
-        private int? DeterminePositionOFLetter(StringBuilder sbQuery, char letter)
+    }
+    public class Transform
+    {
+        public int? DeterminePositionOFLetter(StringBuilder sbQuery, char letter)
         {
             int? position;
             for (int i = 0; i < sbQuery.Length; i++)
@@ -50,7 +55,7 @@ namespace Aufgabe_9
             }
             return null;
         }
-        private StringBuilder RemoveLetter(StringBuilder sbQuery, int position)
+        public StringBuilder RemoveLetter(StringBuilder sbQuery, int position)
         {
             return sbQuery.Remove(position, sbQuery.Length - position);
         }
