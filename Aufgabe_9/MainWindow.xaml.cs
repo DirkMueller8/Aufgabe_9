@@ -57,7 +57,7 @@ namespace Aufgabe_9
         }
         public StringBuilder RemoveLetter(StringBuilder sbQuery, int position)
         {
-            return sbQuery.Remove(position, sbQuery.Length - position);
+            return sbQuery.Remove(0, position + 1);
         }
     }
 }
