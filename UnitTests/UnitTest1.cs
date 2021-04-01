@@ -12,12 +12,17 @@ namespace UnitTests
         [TestMethod]
         public void TestMethod1()
         {
+            // Precontext of test ("Arrange"):
             string numberRoman = "MCMXCVII";
             StringBuilder sb = new StringBuilder();
             sb.Append(numberRoman);
             Transform tf1 = new Transform();
+
+            // Act:
             int? i = tf1.DeterminePositionOFLetter(sb, 'X');
             int expectedIntnumber = 3;
+            
+            // Assert:
             Assert.AreEqual(i, expectedIntnumber);
         }
 
