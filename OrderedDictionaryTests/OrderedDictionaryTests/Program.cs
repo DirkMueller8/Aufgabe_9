@@ -7,6 +7,7 @@ namespace OrderedDictionaryTests
 {
     public class GoForIt
     {
+
         string numberRoman = "MCMXCVII";
 
         SortedDictionary<int, char> dyRoman = new SortedDictionary<int, char>
@@ -39,7 +40,6 @@ namespace OrderedDictionaryTests
         }
         public bool SubtractConsecutiveValues(char left, char right)
         {
-            Console.WriteLine(left.ToString() + ", " + right.ToString());
             if (dyRoman1[right] > dyRoman1[left])
             {
                 return true;
@@ -122,7 +122,41 @@ namespace OrderedDictionaryTests
                     return true;
                 i++;
             }
+            for (int j = 0; j < str.Length - 1; j++)
+            {
+                // Check if for V any bigger number comes after it:
+                if (str[j] == 'V' && str[j + 1] == 'X' && str[j + 1] == 'L' && str[j + 1] == 'C' && str[j + 1] == 'D' && str[j + 1] == 'M')
+                {
+                    return true;
+                }
+            }
+            for (int j = 0; j < str.Length - 1; j++)
+            {
+                // Check if for L any bigger number comes after it:
+                if (str[j] == 'L' && str[j + 1] == 'C' && str[j + 1] == 'D' && str[j + 1] == 'M')
+                {
+                    return true;
+                }
+            }
+            for (int j = 0; j < str.Length - 1; j++)
+            {
+                // Check if for M any bigger number comes after it:
+                if (str[j] == 'D' && str[j + 1] == 'M')
+                {
+                    return true;
+                }
+            }
+            // In all other cases it is a valid input:
             return false;
+        }
+        public Boolean AllCharactersPresentedAreUsedInRomaNumbers(string str)
+        {
+            foreach (var item in str)
+            {
+                if (!dyRoman1.ContainsKey(item))
+                    return false;
+            }
+            return true;
         }
     }
     class Program
@@ -134,11 +168,27 @@ namespace OrderedDictionaryTests
         {
             int? wert;
             GoForIt gfi = new GoForIt();
-            Console.WriteLine(gfi.GetValueForKey(1000));
-            Console.WriteLine(gfi.GetValueForKey(50));
-            Console.WriteLine(gfi.GetValueForKey(23));
-            wert = gfi.CalculateArabicNumber(NUMBERROMAN);
-            Console.WriteLine(wert);
+            string strInput;
+            while (true)
+            {
+                Console.WriteLine("Give roman number (0 for exit)");
+                strInput = Console.ReadLine();
+                if (strInput == "0")
+                    break;
+                if (gfi.AllCharactersPresentedAreUsedInRomaNumbers(strInput))
+                {
+                    wert = gfi.CalculateArabicNumber(strInput);
+                    if (wert != null)
+                        Console.WriteLine($"Resultat: {wert}");
+                    else
+                        Console.WriteLine("There was some problem in your input!");
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine("At least one character does not represent a roman number.");
+                }
+            }
         }
     }
 }
