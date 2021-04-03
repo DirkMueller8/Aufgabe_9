@@ -18,6 +18,10 @@ namespace OrderedDictionaryTests
         {
             {'M', 1000}, {'D', 500}, {'C', 100}, {'L', 50}, {'X', 10 }, {'V', 5}, {'I', 1}
         };
+        SortedList<char, int> dyRoman2 = new SortedList<char, int>
+        {
+            {'M', 1000}, {'D', 500}, {'C', 100}, {'L', 50}, {'X', 10 }, {'V', 5}, {'I', 1}
+        };
 
         public char? GetValueForKey(int keyNumber)
         {
@@ -50,8 +54,14 @@ namespace OrderedDictionaryTests
         public int? CalculateArabicNumber(string romanNumber)
         {
             int? cumm = 0;
+            if (MaximumRepititionOfCharactersExceeded(romanNumber))
+            {
+                Console.WriteLine("Too many repititions in your input");
+                Console.ReadKey();
+            }
             StringBuilder sb = new StringBuilder();
-            sb.Append(romanNumber);
+            romanNumber = romanNumber.TrimEnd(' ');
+            sb.Append(romanNumber.ToUpper());
             if (sb.Length == 1)
                 cumm = GetValueForKey1(sb[0]);
             for (int i = 0; i < sb.Length - 1; i++)
@@ -70,7 +80,32 @@ namespace OrderedDictionaryTests
             }
             return cumm;
         }
+        public Boolean MaximumRepititionOfCharactersExceeded(string str)
+        {
+            // Define array with characters M, C, X, I from sorted list:
+            char[] charMCXI = new char[4] {dyRoman2.Keys[0], dyRoman2.Keys[2], dyRoman2.Keys[4], dyRoman2.Keys[6]};
 
+            // Define array with characters M, C, X, I from sorted list:
+            char[] charVLD = new char[3] { dyRoman2.Keys[1], dyRoman2.Keys[3], dyRoman2.Keys[5]};
+
+            foreach (var item in charMCXI)
+            {
+                int occurences = str.Count(f => (f == item));
+                if (occurences > 3)
+                {
+                    return true;
+                }
+            }
+            foreach (var item in charVLD)
+            {
+                int occurences = str.Count(f => (f == item));
+                if (occurences > 1)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
     class Program
     {

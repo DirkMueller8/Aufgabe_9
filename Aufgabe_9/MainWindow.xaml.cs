@@ -36,8 +36,9 @@ namespace Aufgabe_9
             sb.Append(numberRoman);
             Transform tf = new Transform();
             if (tf.DeterminePositionOFLetter(sb, 'X') != null)
+            {
                 numberM = (int)tf.DeterminePositionOFLetter(sb, 'X');
-            MessageBox.Show(numberM.ToString());
+            }
         }
     }
     public class Transform
@@ -57,7 +58,7 @@ namespace Aufgabe_9
         }
         public StringBuilder RemoveLetter(StringBuilder sbQuery, int position)
         {
-            return sbQuery.Remove(0, position + 1);
+            return sbQuery.Remove(0, position + 1 );
         }
     }
 }

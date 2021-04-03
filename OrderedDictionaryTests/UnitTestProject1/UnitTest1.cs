@@ -50,6 +50,34 @@ namespace UnitTestProject1
             Assert.AreEqual(expectedResult, returnedValue);
         }
         [TestMethod]
+        public void Return1997ForMCMXCVIIPlusEmptySpace()
+        {
+            string numberRoman = "MCMXCVII ";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(numberRoman);
+            int? expectedResult = 1997;
+            int? returnedValue;
+
+            GoForIt gfi1 = new GoForIt();
+            returnedValue = gfi1.CalculateArabicNumber(numberRoman);
+
+            Assert.AreEqual(expectedResult, returnedValue);
+        }
+        [TestMethod]
+        public void Return1997Formcmxcvii()
+        {
+            string numberRoman = "mcmxcvii";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(numberRoman);
+            int? expectedResult = 1997;
+            int? returnedValue;
+
+            GoForIt gfi1 = new GoForIt();
+            returnedValue = gfi1.CalculateArabicNumber(numberRoman);
+
+            Assert.AreEqual(expectedResult, returnedValue);
+        }
+        [TestMethod]
         public void Return2009ForMMIX()
         {
             string numberRoman = "MMIX";
