@@ -147,5 +147,33 @@ namespace UnitTestProject1
 
             Assert.AreEqual(expectedResult, returnedValue);
         }
+        [TestMethod]
+        public void ReturnNullForMoreThan3Cs()
+        {
+            string numberRoman = "MCCCCVI";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(numberRoman);
+            int? expectedResult = null;
+            int? returnedValue;
+
+            GoForIt gfi1 = new GoForIt();
+            returnedValue = gfi1.CalculateArabicNumber(numberRoman);
+
+            Assert.AreEqual(expectedResult, returnedValue);
+        }
+        [TestMethod]
+        public void ReturnNullForMoreThan1V()
+        {
+            string numberRoman = "MCMXCVVI";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(numberRoman);
+            int? expectedResult = null;
+            int? returnedValue;
+
+            GoForIt gfi1 = new GoForIt();
+            returnedValue = gfi1.CalculateArabicNumber(numberRoman);
+
+            Assert.AreEqual(expectedResult, returnedValue);
+        }
     }
 }

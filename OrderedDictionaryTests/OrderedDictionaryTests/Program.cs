@@ -18,10 +18,6 @@ namespace OrderedDictionaryTests
         {
             {'M', 1000}, {'D', 500}, {'C', 100}, {'L', 50}, {'X', 10 }, {'V', 5}, {'I', 1}
         };
-        SortedList<char, int> dyRoman2 = new SortedList<char, int>
-        {
-            {'M', 1000}, {'D', 500}, {'C', 100}, {'L', 50}, {'X', 10 }, {'V', 5}, {'I', 1}
-        };
 
         public char? GetValueForKey(int keyNumber)
         {
@@ -56,8 +52,7 @@ namespace OrderedDictionaryTests
             int? cumm = 0;
             if (MaximumRepititionOfCharactersExceeded(romanNumber))
             {
-                Console.WriteLine("Too many repititions in your input");
-                Console.ReadKey();
+                return null;
             }
             StringBuilder sb = new StringBuilder();
             romanNumber = romanNumber.TrimEnd(' ');
@@ -75,34 +70,47 @@ namespace OrderedDictionaryTests
                 {
                     cumm += GetValueForKey1(sb[i]);
                     if (i == sb.Length - 2)
-                        cumm = cumm + GetValueForKey1(sb[i+1]);
+                        cumm = cumm + GetValueForKey1(sb[i + 1]);
                 }
             }
             return cumm;
         }
         public Boolean MaximumRepititionOfCharactersExceeded(string str)
         {
-            // Define array with characters M, C, X, I from sorted list:
-            char[] charMCXI = new char[4] {dyRoman2.Keys[0], dyRoman2.Keys[2], dyRoman2.Keys[4], dyRoman2.Keys[6]};
+            // Define array with characters M, C, X, I from sorted dictionary:
+            char[] charMCXI = new char[4] { dyRoman[1000], dyRoman[100], dyRoman[10], dyRoman[1] };
 
-            // Define array with characters M, C, X, I from sorted list:
-            char[] charVLD = new char[3] { dyRoman2.Keys[1], dyRoman2.Keys[3], dyRoman2.Keys[5]};
+            // Define array with characters V, L, D from sorted dictionary:
+            char[] charVLD = new char[3] { dyRoman[5], dyRoman[50], dyRoman[500] };
 
-            foreach (var item in charMCXI)
+            int i = 0;
+            int countRepititions = 0;
+
+            while (i < str.Length - 1)
             {
-                int occurences = str.Count(f => (f == item));
-                if (occurences > 3)
-                {
-                    return true;
-                }
+                // Check if the running character is of ('M', 'C', 'X', 'I') AND if it repeats with the next character:
+                if ((str[i] == charMCXI[0] || str[i] == charMCXI[1] || str[i] == charMCXI[2] || str[i] == charMCXI[3]) && str[i] == str[i + 1])
+                    countRepititions++;
+                i++;
             }
-            foreach (var item in charVLD)
+            // If there are more than three same consecutive characters of ('M', 'C', 'X', 'I') return true:
+            if (countRepititions > 2)
             {
-                int occurences = str.Count(f => (f == item));
-                if (occurences > 1)
-                {
-                    return true;
-                }
+                return true;
+            }
+            countRepititions = 0;
+            i = 0;
+            while (i < str.Length - 1)
+            {
+                // Check if the running character is of ('V', 'L', 'D')  AND if it repeats with the next character:
+                if ((str[i] == charVLD[0] || str[i] == charVLD[1] || str[i] == charVLD[2]) && str[i] == str[i + 1])
+                    countRepititions++;
+                i++;
+            }
+            // If there are more than two same consecutive characters of ('V', 'L', 'D') return true:
+            if (countRepititions > 0)
+            {
+                return true;
             }
             return false;
         }
