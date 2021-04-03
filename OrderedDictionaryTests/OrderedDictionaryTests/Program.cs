@@ -50,13 +50,14 @@ namespace OrderedDictionaryTests
         public int? CalculateArabicNumber(string romanNumber)
         {
             int? cumm = 0;
-            if (MaximumRepititionOfCharactersExceeded(romanNumber))
+            StringBuilder sb = new StringBuilder();
+            romanNumber = romanNumber.TrimEnd(' ');
+            string tempString = romanNumber.ToUpper();
+            sb.Append(tempString.ToUpper());
+            if (MaximumRepititionOfCharactersExceeded(tempString))
             {
                 return null;
             }
-            StringBuilder sb = new StringBuilder();
-            romanNumber = romanNumber.TrimEnd(' ');
-            sb.Append(romanNumber.ToUpper());
             if (sb.Length == 1)
                 cumm = GetValueForKey1(sb[0]);
             for (int i = 0; i < sb.Length - 1; i++)
@@ -112,12 +113,23 @@ namespace OrderedDictionaryTests
             {
                 return true;
             }
+            countRepititions = 0;
+            i = 1;
+            while (i < str.Length - 1)
+            {
+                // Check if the running character is of ('M', 'C', 'X', 'I') AND if it repeats with the next character:
+                if (SubtractConsecutiveValues(str[i], str[i + 1]) && str[i - 1] == str[i])
+                    return true;
+                i++;
+            }
             return false;
         }
     }
     class Program
     {
-        const string NUMBERROMAN = "MCMXCVII";
+        //const string NUMBERROMAN = "MCMXCVII";
+        const string NUMBERROMAN = "mcmxcvii";
+
         static void Main(string[] args)
         {
             int? wert;

@@ -148,7 +148,7 @@ namespace UnitTestProject1
             Assert.AreEqual(expectedResult, returnedValue);
         }
         [TestMethod]
-        public void ReturnNullForMoreThan3Cs()
+        public void ReturnNullForMoreThan4ConsecutiveCs()
         {
             string numberRoman = "MCCCCVI";
             StringBuilder sb = new StringBuilder();
@@ -162,9 +162,51 @@ namespace UnitTestProject1
             Assert.AreEqual(expectedResult, returnedValue);
         }
         [TestMethod]
-        public void ReturnNullForMoreThan1V()
+        public void ReturnNullForMoreThan3Cs()
+        {
+            string numberRoman = "CCC";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(numberRoman);
+            int? expectedResult = 300;
+            int? returnedValue;
+
+            GoForIt gfi1 = new GoForIt();
+            returnedValue = gfi1.CalculateArabicNumber(numberRoman);
+
+            Assert.AreEqual(expectedResult, returnedValue);
+        }
+        [TestMethod]
+        public void ReturnNullForMoreThan1ConsecutiveV()
         {
             string numberRoman = "MCMXCVVI";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(numberRoman);
+            int? expectedResult = null;
+            int? returnedValue;
+
+            GoForIt gfi1 = new GoForIt();
+            returnedValue = gfi1.CalculateArabicNumber(numberRoman);
+
+            Assert.AreEqual(expectedResult, returnedValue);
+        }
+        [TestMethod]
+        public void ReturnNullForMoreThan1Non_ConsecutiveV()
+        {
+            string numberRoman = "VIV";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(numberRoman);
+            int? expectedResult = 9;
+            int? returnedValue;
+
+            GoForIt gfi1 = new GoForIt();
+            returnedValue = gfi1.CalculateArabicNumber(numberRoman);
+
+            Assert.AreEqual(expectedResult, returnedValue);
+        }
+        [TestMethod]
+        public void ReturnNullIfTwoIIsInFrontOfBiggerNumber()
+        {
+            string numberRoman = "IIC";
             StringBuilder sb = new StringBuilder();
             sb.Append(numberRoman);
             int? expectedResult = null;
