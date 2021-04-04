@@ -7,40 +7,30 @@ namespace OrderedDictionaryTests
 {
     public class GoForIt
     {
-
-        string numberRoman = "MCMXCVII";
-
         SortedDictionary<int, char> dyRoman = new SortedDictionary<int, char>
         {
             {1000, 'M'}, {500, 'D'}, {100, 'C'}, {50, 'L'}, {10, 'X' }, {5, 'V'}, {1, 'I'}
         };
 
-        SortedDictionary<char, int> dyRoman1 = new SortedDictionary<char, int>
+        SortedDictionary<char, int> letterNumber = new SortedDictionary<char, int>
         {
             {'M', 1000}, {'D', 500}, {'C', 100}, {'L', 50}, {'X', 10 }, {'V', 5}, {'I', 1}
         };
 
-        public char? GetValueForKey(int keyNumber)
-        {
-            char result;
-            if (dyRoman.TryGetValue(keyNumber, out result))
-            {
-                return result;
-            }
-            return null;
-        }
-        public int? GetValueForKey1(char letter)
+        public int? GetValueForKey(char letter)
         {
             int result;
-            if (dyRoman1.TryGetValue(letter, out result))
+            if (letterNumber.TryGetValue(letter, out result))
             {
                 return result;
             }
             return null;
         }
-        public bool SubtractConsecutiveValues(char left, char right)
+
+        // When a smaller roman number precedes a larger number return true:
+        public bool CanSubtractConsecutiveValues(char left, char right)
         {
-            if (dyRoman1[right] > dyRoman1[left])
+            if (letterNumber[right] > letterNumber[left])
             {
                 return true;
             }
@@ -49,78 +39,87 @@ namespace OrderedDictionaryTests
         }
         public int? CalculateArabicNumber(string romanNumber)
         {
-            int? cumm = 0;
+            int? cummulativeValue = 0;
             StringBuilder sb = new StringBuilder();
             romanNumber = romanNumber.TrimEnd(' ');
             string tempString = romanNumber.ToUpper();
             sb.Append(tempString.ToUpper());
-            if (MaximumRepititionOfCharactersExceeded(tempString))
+
+            // Check if the input does not represent an existing roman number:
+            if (ForbiddenCombinationOrMaximumNumberOfSameLetterExceeded(tempString))
             {
                 return null;
             }
+            // Special case of only one roman letter:
             if (sb.Length == 1)
-                cumm = GetValueForKey1(sb[0]);
-            for (int i = 0; i < sb.Length - 1; i++)
             {
-                if (SubtractConsecutiveValues(sb[i], sb[i + 1]))
+                cummulativeValue = GetValueForKey(sb[0]);
+            }
+
+            // Traverse the roman number from left to right. Distinguish between
+            // the case where a subtraction is necessary, and where not:
+            int i = 0;
+            while (i < sb.Length - 1)
+            {
+                if (CanSubtractConsecutiveValues(sb[i], sb[i + 1]))
                 {
-                    cumm = cumm + GetValueForKey1(sb[i + 1]) - GetValueForKey1(sb[i]);
+                    cummulativeValue += GetValueForKey(sb[i + 1]) - GetValueForKey(sb[i]);
                     i++;
                 }
                 else
                 {
-                    cumm += GetValueForKey1(sb[i]);
+                    cummulativeValue += GetValueForKey(sb[i]);
                     if (i == sb.Length - 2)
-                        cumm = cumm + GetValueForKey1(sb[i + 1]);
+                        cummulativeValue += GetValueForKey(sb[i + 1]);
                 }
+                i++;
             }
-            return cumm;
+            return cummulativeValue;
         }
-        public Boolean MaximumRepititionOfCharactersExceeded(string str)
+        public Boolean ForbiddenCombinationOrMaximumNumberOfSameLetterExceeded(string str)
         {
             // Define array with characters M, C, X, I from sorted dictionary:
-            char[] charMCXI = new char[4] { dyRoman[1000], dyRoman[100], dyRoman[10], dyRoman[1] };
+            char[] chMCXI = new char[4] { dyRoman[1000], dyRoman[100], dyRoman[10], dyRoman[1] };
 
             // Define array with characters V, L, D from sorted dictionary:
-            char[] charVLD = new char[3] { dyRoman[5], dyRoman[50], dyRoman[500] };
+            char[] chVLD = new char[3] { dyRoman[5], dyRoman[50], dyRoman[500] };
 
             int i = 0;
             int countRepititions = 0;
 
-            while (i < str.Length - 1)
+            for (int m = 0; m < str.Length - 1; m++)
             {
-                // Check if the running character is of ('M', 'C', 'X', 'I') AND if it repeats with the next character:
-                if ((str[i] == charMCXI[0] || str[i] == charMCXI[1] || str[i] == charMCXI[2] || str[i] == charMCXI[3]) && str[i] == str[i + 1])
+                // Check if the running character is any of ('M', 'C', 'X', 'I') AND if it repeats 
+                // with the next character:
+                if ((str[m] == chMCXI[0] || str[m] == chMCXI[1] || str[m] == chMCXI[2] || str[m] == chMCXI[3]) && str[m] == str[m + 1])
                     countRepititions++;
-                i++;
             }
-            // If there are more than three same consecutive characters of ('M', 'C', 'X', 'I') return true:
+            // If there are more than three equal consecutive characters in any of ('M', 'C', 'X', 'I') return true:
             if (countRepititions > 2)
             {
                 return true;
             }
+
             countRepititions = 0;
-            i = 0;
-            while (i < str.Length - 1)
+            for (int n = 0; n < str.Length - 1; n++)
             {
                 // Check if the running character is of ('V', 'L', 'D')  AND if it repeats with the next character:
-                if ((str[i] == charVLD[0] || str[i] == charVLD[1] || str[i] == charVLD[2]) && str[i] == str[i + 1])
+                if ((str[n] == chVLD[0] || str[n] == chVLD[1] || str[n] == chVLD[2]) && str[n] == str[n + 1])
                     countRepititions++;
-                i++;
             }
             // If there are more than two same consecutive characters of ('V', 'L', 'D') return true:
             if (countRepititions > 0)
             {
                 return true;
             }
-            countRepititions = 0;
-            i = 1;
-            while (i < str.Length - 1)
+
+            for (int h = 1; h < str.Length - 1; h++)
             {
                 // Check if the running character is of ('M', 'C', 'X', 'I') AND if it repeats with the next character:
-                if (SubtractConsecutiveValues(str[i], str[i + 1]) && str[i - 1] == str[i])
+                if (CanSubtractConsecutiveValues(str[h], str[h + 1]) && str[h - 1] == str[h])
+                {
                     return true;
-                i++;
+                }
             }
             for (int j = 0; j < str.Length - 1; j++)
             {
@@ -146,14 +145,14 @@ namespace OrderedDictionaryTests
                     return true;
                 }
             }
-            // In all other cases it is a valid input:
+            // In all other cases it is a valid input and return false:
             return false;
         }
         public Boolean AllCharactersPresentedAreUsedInRomaNumbers(string str)
         {
             foreach (var item in str)
             {
-                if (!dyRoman1.ContainsKey(item))
+                if (!letterNumber.ContainsKey(item))
                     return false;
             }
             return true;
@@ -161,32 +160,41 @@ namespace OrderedDictionaryTests
     }
     class Program
     {
-        //const string NUMBERROMAN = "MCMXCVII";
-        const string NUMBERROMAN = "mcmxcvii";
-
         static void Main(string[] args)
         {
-            int? wert;
+            int? value;
             GoForIt gfi = new GoForIt();
             string strInput;
             while (true)
             {
-                Console.WriteLine("Give roman number (0 for exit)");
+                Console.WriteLine("Give a roman number (0 for exit)");
                 strInput = Console.ReadLine();
                 if (strInput == "0")
+                {
                     break;
+                }
                 if (gfi.AllCharactersPresentedAreUsedInRomaNumbers(strInput))
                 {
-                    wert = gfi.CalculateArabicNumber(strInput);
-                    if (wert != null)
-                        Console.WriteLine($"Resultat: {wert}");
+                    value = gfi.CalculateArabicNumber(strInput);
+                    if (value != null)
+                    {
+                        Console.WriteLine($"Corresponding arabic number: {value}");
+                    }
                     else
-                        Console.WriteLine("There was some problem in your input!");
+                    {
+                        Console.WriteLine("There was a problem in your input!");
+                        Console.WriteLine("Check the following rules:");
+                        Console.WriteLine("1.) The symbols V, L and D are never repeated.");
+                        Console.WriteLine("2.) Any symbol may not occur more than three times.");
+                        Console.WriteLine("3.) The symbols V, L and D are never written to the left of a symbol of greater value");
+                        Console.WriteLine("Please try again");
+                    }
                     Console.WriteLine();
                 }
                 else
                 {
                     Console.WriteLine("At least one character does not represent a roman number.");
+                    Console.WriteLine("Please try again");
                 }
             }
         }

@@ -17,7 +17,7 @@ namespace UnitTestProject1
             bool? returnedValue;
 
             GoForIt gfi1 = new GoForIt();
-            returnedValue = gfi1.SubtractConsecutiveValues(sb[0], sb[1]);
+            returnedValue = gfi1.CanSubtractConsecutiveValues(sb[0], sb[1]);
 
             Assert.AreEqual(expectedResult, returnedValue);
         }
@@ -31,7 +31,7 @@ namespace UnitTestProject1
             bool? returnedValue;
 
             GoForIt gfi1 = new GoForIt();
-            returnedValue = gfi1.SubtractConsecutiveValues(sb[0], sb[1]);
+            returnedValue = gfi1.CanSubtractConsecutiveValues(sb[0], sb[1]);
 
             Assert.AreEqual(expectedResult, returnedValue);
         }
