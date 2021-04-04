@@ -120,6 +120,20 @@ namespace UnitTestProject1
             Assert.AreEqual(expectedResult, returnedValue);
         }
         [TestMethod]
+        public void Return388ForCCCLXXXVIII()
+        {
+            string numberRoman = "CCCLXXXVIII";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(numberRoman);
+            int? expectedResult = 388;
+            int? returnedValue;
+
+            GoForIt gfi1 = new GoForIt();
+            returnedValue = gfi1.CalculateArabicNumber(numberRoman);
+
+            Assert.AreEqual(expectedResult, returnedValue);
+        }
+        [TestMethod]
         public void Return1ForI()
         {
             string numberRoman = "I";

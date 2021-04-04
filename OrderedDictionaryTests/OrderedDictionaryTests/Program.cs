@@ -87,30 +87,37 @@ namespace OrderedDictionaryTests
             int i = 0;
             int countRepititions = 0;
 
-            for (int m = 0; m < str.Length - 1; m++)
+            foreach (var item in chMCXI)
             {
-                // Check if the running character is any of ('M', 'C', 'X', 'I') AND if it repeats 
-                // with the next character:
-                if ((str[m] == chMCXI[0] || str[m] == chMCXI[1] || str[m] == chMCXI[2] || str[m] == chMCXI[3]) && str[m] == str[m + 1])
-                    countRepititions++;
-            }
-            // If there are more than three equal consecutive characters in any of ('M', 'C', 'X', 'I') return true:
-            if (countRepititions > 2)
-            {
-                return true;
+                for (int m = 0; m < str.Length - 1; m++)
+                {
+                    // Check if the running character is any of ('M', 'C', 'X', 'I') AND if it repeats 
+                    // with the next character:
+                    if ((str[m] == item) && str[m] == str[m + 1])
+                        countRepititions++;
+                }
+                if (countRepititions > 2)
+                {
+                    return true;
+                }
+                countRepititions = 0;
             }
 
             countRepititions = 0;
-            for (int n = 0; n < str.Length - 1; n++)
+            foreach (var item in chVLD)
             {
-                // Check if the running character is of ('V', 'L', 'D')  AND if it repeats with the next character:
-                if ((str[n] == chVLD[0] || str[n] == chVLD[1] || str[n] == chVLD[2]) && str[n] == str[n + 1])
-                    countRepititions++;
-            }
-            // If there are more than two same consecutive characters of ('V', 'L', 'D') return true:
-            if (countRepititions > 0)
-            {
-                return true;
+                for (int m = 0; m < str.Length - 1; m++)
+                {
+                    // Check if the running character is any of ('M', 'C', 'X', 'I') AND if it repeats 
+                    // with the next character:
+                    if ((str[m] == item) && str[m] == str[m + 1])
+                        countRepititions++;
+                }
+                if (countRepititions > 0)
+                {
+                    return true;
+                }
+                countRepititions = 0;
             }
 
             for (int h = 1; h < str.Length - 1; h++)
@@ -150,7 +157,8 @@ namespace OrderedDictionaryTests
         }
         public Boolean AllCharactersPresentedAreUsedInRomaNumbers(string str)
         {
-            foreach (var item in str)
+            string str1 = str.ToUpper();
+            foreach (var item in str1)
             {
                 if (!letterNumber.ContainsKey(item))
                     return false;
@@ -162,9 +170,11 @@ namespace OrderedDictionaryTests
     {
         static void Main(string[] args)
         {
+            //string probe = "CCCLXXXVIII";
             int? value;
             GoForIt gfi = new GoForIt();
             string strInput;
+            //string strInput = probe;
             while (true)
             {
                 Console.WriteLine("Give a roman number (0 for exit)");
