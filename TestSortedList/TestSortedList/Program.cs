@@ -16,6 +16,7 @@ namespace TestSortedList
             foreach (var item in cities)
             {
                 Console.WriteLine(item.Key + ", ", item.Value);
+                cities[item.Key] =
             }
         }
     }

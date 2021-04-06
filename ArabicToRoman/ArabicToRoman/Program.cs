@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ArabicToRoman
 {
@@ -10,16 +11,16 @@ namespace ArabicToRoman
 
         static void Main(string[] args)
         {
-            Dictionary<int, char> pairs = new Dictionary<int, char>();
-            pairs.Add(1, 'I');
-            pairs.Add(5, 'V');
+            SortedDictionary<int, char> pairs = new SortedDictionary<int, char>();
+            //pairs.Add(1, 'I');
+            //pairs.Add(5, 'V');
             pairs.Add(10, 'X');
-            pairs.Add(50, 'L');
+            //pairs.Add(50, 'L');
             pairs.Add(100, 'C');
-            pairs.Add(500, 'D');
+            //pairs.Add(500, 'D');
             pairs.Add(1000, 'M');
 
-            Dictionary<int, int> digits;
+            SortedDictionary<int, int> digits;
             digits = GetDigits(986);
 
             foreach (var item in digits)
@@ -29,26 +30,36 @@ namespace ArabicToRoman
             GetClosest(digits, pairs);
 
         }
-        public static Dictionary<int, int> GetClosest(Dictionary<int, int> digits, Dictionary<int, char> toCompareWith)
+        public static SortedDictionary<int, int> GetClosest(SortedDictionary<int, int> digits, SortedDictionary<int, char> toCompareWith)
         {
             int diff = 10000;
             int temp;
             int verdacht = 0;
             foreach (var item in toCompareWith)
             {
-                foreach (var item1 in digits)
+                Console.WriteLine($"Äussere Schleife: {item}: {item.Key}, {item.Value}");
+                //foreach (var item1 in digits)
+                for (int i = 0; i < digits.Count; i++)
                 {
-                    temp = Math.Abs(item.Key - item1.Key);
+                    temp = Math.Abs(item.Key - digits.ElementAt(i).Key);
                     Console.WriteLine("temp: {0}", temp);
+                    Console.ReadKey();
                     if (temp < diff)
                     {
                         verdacht = item.Key;
+                        digits[digits.ElementAt(i).Key] = verdacht;
                     }
                     diff = temp;
+                    Console.WriteLine($"Verdacht innere Schleife: {verdacht}");
+                    Console.WriteLine($"Innere Schleife (key, value): {digits.ElementAt(i).Key}, {digits.ElementAt(i).Value}");
+                    //Console.Write($"digits[digits.ElementAt(i).Key]:  {digits.ElementAt(i).Key}, ");
+                    //Console.WriteLine($"digits[digits.ElementAt(i).Value]:  {digits.ElementAt(i).Value}");
                 }
+                Console.WriteLine();
+                diff = 10000;
                 Console.WriteLine($"item.Key: {item.Key}, item.value: {item.Value}, verdacht: {verdacht}, {toCompareWith[verdacht]}");
                 Console.ReadLine();
-                digits[item.Key] = verdacht;
+                //Console.WriteLine($"digits[item.Key] = {digits[item.Key]}, {digits[item]}");
             }
             foreach (var item in digits)
             {
@@ -56,11 +67,11 @@ namespace ArabicToRoman
             }
             return digits;
         }
-        public static Dictionary<int, int> GetDigits(int number)
+        public static SortedDictionary<int, int> GetDigits(int number)
         {
             int a = number;
             string currentNumberAsString = number.ToString();
-            Dictionary<int, int> digits = new Dictionary<int, int>();
+            SortedDictionary<int, int> digits = new SortedDictionary<int, int>();
 
             int l = currentNumberAsString.Length;
             for (int i = 1; i < l; i++)
