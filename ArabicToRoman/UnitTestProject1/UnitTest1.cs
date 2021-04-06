@@ -1,64 +1,53 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using ArabicToRoman;
+using System.Linq;
 
 namespace UnitTestProject1
 {
     [TestClass]
     public class UnitTest1
     {
-        //[TestMethod]
-        //public void Number986gives900_80_6()
-        //{
-        //    //List<int> digits = new List<int>();
-        //    SortedList<int, int> digits = new SortedList<int, int>();
+        [TestMethod]
+        public void Number1gives1()
+        {
+            SortedDictionary<int, int> digits = new SortedDictionary<int, int>();
 
-        //    digits.Add(900, 0);
-        //    digits.Add(80, 0);
-        //    digits.Add(6, 0);
+            digits.Add(1, 0);
 
-        //    List<int> returnedValue = new List<int>();
+            for (int i = 0; i < digits.Count; i++)
+            {
+                Assert.AreEqual(digits.ElementAt(i), Program.GetDigits(1).ElementAt(i));
+            }
+        }
+        [TestMethod]
+        public void Number986gives900_80_6()
+        {
+            SortedDictionary<int, int> digits = new SortedDictionary<int, int>();
 
-        //    foreach (int i = 0; i < 3; i++)
-        //    {
-        //        Assert.AreEqual(digits.Keys[i], Program.GetDigits(986).Keys[i]);
-        //    }
-        //}
-        //[TestMethod]
-        //public void Number3989gives3000_900_80_9()
-        //{
-        //    //List<int> digits = new List<int>();
-        //    SortedList<int, int> digits = new SortedList<int, int>();
+            digits.Add(900, 0);
+            digits.Add(80, 0);
+            digits.Add(6, 0);
 
-        //    digits.Add(3000, 0);
-        //    digits.Add(900, 0);
-        //    digits.Add(80, 0);
-        //    digits.Add(9, 0);
+            for (int i = 0; i < digits.Count; i++)
+            {
+                Assert.AreEqual(digits.ElementAt(i), Program.GetDigits(986).ElementAt(i));
+            }
+        }
+        [TestMethod]
+        public void Number3962gives3000_900_60_2()
+        {
+            SortedDictionary<int, int> digits = new SortedDictionary<int, int>();
 
-        //    List<int> returnedValue = new List<int>();
+            digits.Add(3000, 0);
+            digits.Add(900, 0);
+            digits.Add(60, 0);
+            digits.Add(2, 0);
 
-        //    for (int i = 0; i < 3; i++)
-        //    {
-        //        Assert.AreEqual(digits.Keys[i], Program.GetDigits(3989).Keys[i]);
-        //    }
-        //}
-        //[TestMethod]
-        //public void Number3989gives3000_900_80_9DifferentOrder()
-        //{
-        //    //List<int> digits = new List<int>();
-        //    SortedList<int, int> digits = new SortedList<int, int>();
-
-        //    digits.Add(900, 0);
-        //    digits.Add(3000, 0);
-        //    digits.Add(9, 0);
-        //    digits.Add(80, 0);
-
-        //    List<int> returnedValue = new List<int>();
-
-        //    for (int i = 0; i < 3; i++)
-        //    {
-        //        Assert.AreEqual(digits.Keys[i], Program.GetDigits(3989).Keys[i]);
-        //    }
-        //}
+            for (int i = 0; i < digits.Count; i++)
+            {
+                Assert.AreEqual(digits.ElementAt(i), Program.GetDigits(3962).ElementAt(i));
+            }
+        }
     }
 }

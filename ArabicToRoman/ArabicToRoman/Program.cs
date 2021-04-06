@@ -12,21 +12,21 @@ namespace ArabicToRoman
         static void Main(string[] args)
         {
             SortedDictionary<int, char> pairs = new SortedDictionary<int, char>();
-            //pairs.Add(1, 'I');
-            //pairs.Add(5, 'V');
+            pairs.Add(1, 'I');
+            pairs.Add(5, 'V');
             pairs.Add(10, 'X');
-            //pairs.Add(50, 'L');
+            pairs.Add(50, 'L');
             pairs.Add(100, 'C');
-            //pairs.Add(500, 'D');
+            pairs.Add(500, 'D');
             pairs.Add(1000, 'M');
 
             SortedDictionary<int, int> digits;
             digits = GetDigits(986);
 
-            foreach (var item in digits)
-            {
-                Console.WriteLine(item);
-            }
+            //foreach (var item in digits)
+            //{
+            //    Console.WriteLine(item);
+            //}
             GetClosest(digits, pairs);
 
         }
@@ -35,35 +35,32 @@ namespace ArabicToRoman
             int diff = 10000;
             int temp;
             int verdacht = 0;
-            foreach (var item in toCompareWith)
+
+            for (int i = 0; i < digits.Count; i++)
             {
-                Console.WriteLine($"Äussere Schleife: {item}: {item.Key}, {item.Value}");
+                Console.WriteLine($"Äussere Schleife:, digits (key, value): {digits.ElementAt(i).Key}, {digits.ElementAt(i).Value}");
                 //foreach (var item1 in digits)
-                for (int i = 0; i < digits.Count; i++)
+                foreach (var item in toCompareWith)
                 {
+                    Console.WriteLine();
+                    Console.WriteLine($"i: {i}");
                     temp = Math.Abs(item.Key - digits.ElementAt(i).Key);
-                    Console.WriteLine("temp: {0}", temp);
-                    Console.ReadKey();
+                    Console.WriteLine($"temp, diff: {temp}, {diff}");
                     if (temp < diff)
                     {
                         verdacht = item.Key;
+                        Console.WriteLine($"Verdacht: {verdacht}");
                         digits[digits.ElementAt(i).Key] = verdacht;
                     }
+                    Console.WriteLine($"digits (key, value): {digits.ElementAt(i).Key}, {digits.ElementAt(i).Value}");
                     diff = temp;
-                    Console.WriteLine($"Verdacht innere Schleife: {verdacht}");
-                    Console.WriteLine($"Innere Schleife (key, value): {digits.ElementAt(i).Key}, {digits.ElementAt(i).Value}");
-                    //Console.Write($"digits[digits.ElementAt(i).Key]:  {digits.ElementAt(i).Key}, ");
-                    //Console.WriteLine($"digits[digits.ElementAt(i).Value]:  {digits.ElementAt(i).Value}");
                 }
-                Console.WriteLine();
+                verdacht = 0;
                 diff = 10000;
-                Console.WriteLine($"item.Key: {item.Key}, item.value: {item.Value}, verdacht: {verdacht}, {toCompareWith[verdacht]}");
-                Console.ReadLine();
-                //Console.WriteLine($"digits[item.Key] = {digits[item.Key]}, {digits[item]}");
             }
-            foreach (var item in digits)
+            foreach (var item2 in digits)
             {
-                Console.WriteLine(item.Key + ", " + item.Value);
+                Console.WriteLine($"Final result: {item2.Key},  {item2.Value}");
             }
             return digits;
         }
