@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace ArabicToRoman
 {
@@ -23,64 +24,80 @@ namespace ArabicToRoman
             SortedDictionary<int, int> digits;
             digits = GetDigits(986);
 
-            //foreach (var item in digits)
-            //{
-            //    Console.WriteLine(item);
-            //}
-            GetClosest(digits, pairs);
+            SortedDictionary<int, int> work;
+            work = GetClosest(digits, pairs);
 
+            string buildRoman = "";
+            buildRoman = FinalConversion(work);
         }
-        public static SortedDictionary<int, int> GetClosest(SortedDictionary<int, int> digits, SortedDictionary<int, char> toCompareWith)
+        public static string FinalConversion(SortedDictionary<int, int> dict)
         {
-            int diff = 10000;
-            int temp;
-            int verdacht = 0;
-
-            for (int i = 0; i < digits.Count; i++)
+            string temp = "";
+            StringBuilder sb = new StringBuilder();
+            int ratio;
+            int rest;
+            int i = 0;
+            if (dict.ElementAt(i).Key > dict.ElementAt(i).Value)
             {
-                Console.WriteLine($"Äussere Schleife:, digits (key, value): {digits.ElementAt(i).Key}, {digits.ElementAt(i).Value}");
-                //foreach (var item1 in digits)
-                foreach (var item in toCompareWith)
+                ratio = dict.ElementAt(i).Key / dict.ElementAt(i).Value;
+                rest = dict.ElementAt(i).Key % dict.ElementAt(i).Value;
+                switch (ratio)
                 {
-                    Console.WriteLine();
-                    Console.WriteLine($"i: {i}");
-                    temp = Math.Abs(item.Key - digits.ElementAt(i).Key);
-                    Console.WriteLine($"temp, diff: {temp}, {diff}");
-                    if (temp < diff)
-                    {
-                        verdacht = item.Key;
-                        Console.WriteLine($"Verdacht: {verdacht}");
-                        digits[digits.ElementAt(i).Key] = verdacht;
-                    }
-                    Console.WriteLine($"digits (key, value): {digits.ElementAt(i).Key}, {digits.ElementAt(i).Value}");
-                    diff = temp;
+                    case 1:
+                        sb.Append("M");
+                        break;
+                    case 2:
+                        sb.Append("MM");
+                        break;
+                    case 3:
+                        sb.Append("MMM");
+                        break;
                 }
-                verdacht = 0;
-                diff = 10000;
             }
-            foreach (var item2 in digits)
-            {
-                Console.WriteLine($"Final result: {item2.Key},  {item2.Value}");
-            }
-            return digits;
-        }
-        public static SortedDictionary<int, int> GetDigits(int number)
-        {
-            int a = number;
-            string currentNumberAsString = number.ToString();
-            SortedDictionary<int, int> digits = new SortedDictionary<int, int>();
+            i = 1;
 
-            int l = currentNumberAsString.Length;
-            for (int i = 1; i < l; i++)
-            {
-                number = (int)(number / Math.Pow(10, l - i));
-                number = (int)(number * Math.Pow(10, l - i));
-                digits.Add((int)(number), 0);
-                number = a - number;
-                a = number;
-            }
-            digits.Add((int)(number), 0);
-            return digits;
+            return temp;
         }
+    public static SortedDictionary<int, int> GetClosest(SortedDictionary<int, int> digits, SortedDictionary<int, char> toCompareWith)
+    {
+        int diff = 10000;
+        int temp;
+        int verdacht;
+
+        for (int i = 0; i < digits.Count; i++)
+        {
+            foreach (var item in toCompareWith)
+            {
+                temp = Math.Abs(item.Key - digits.ElementAt(i).Key);
+                if (temp < diff)
+                {
+                    verdacht = item.Key;
+                    Console.WriteLine($"Verdacht: {verdacht}");
+                    digits[digits.ElementAt(i).Key] = verdacht;
+                }
+                diff = temp;
+            }
+            diff = 10000;
+        }
+        return digits;
     }
+    public static SortedDictionary<int, int> GetDigits(int number)
+    {
+        int a = number;
+        string currentNumberAsString = number.ToString();
+        SortedDictionary<int, int> digits = new SortedDictionary<int, int>();
+
+        int l = currentNumberAsString.Length;
+        for (int i = 1; i < l; i++)
+        {
+            number = (int)(number / Math.Pow(10, l - i));
+            number = (int)(number * Math.Pow(10, l - i));
+            digits.Add((int)(number), 0);
+            number = a - number;
+            a = number;
+        }
+        digits.Add((int)(number), 0);
+        return digits;
+    }
+}
 }
